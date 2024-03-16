@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="quote">Quote Text</string>
+    <string name="character_name">Character Name</string>
+    <string name="anime_name">Anime Name</string>
+</resources>
