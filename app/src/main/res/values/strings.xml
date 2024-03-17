@@ -2,7 +2,7 @@
     <string name="app_name">AnimeQuotes</string>
     <string name="title_home">Home</string>
     <string name="title_favorites">Favorites</string>
-    <string name="searchbar_hint">Enter a anime character name here</string>
+    <string name="searchbar_hint">Enter a anime name here</string>
     <string name="something_wrong">Oops, Something Wrong!</string>
     <string name="no_data">Sorry, No Quote Found!</string>
 </resources>

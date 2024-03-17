@@ -1,4 +1,4 @@
-package com.example.animequotes
+package com.example.animequotes.ui.home
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
