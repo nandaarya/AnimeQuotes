@@ -1,3 +1,6 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
@@ -13,6 +16,12 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+
+        val properties = Properties().apply {
+            load(FileInputStream(project.rootProject.file("local.properties")))
+        }
+
+        buildConfigField("String", "BASE_URL", properties.getProperty("BASE_URL_API"))
     }
 
     buildTypes {
