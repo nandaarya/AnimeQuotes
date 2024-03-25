@@ -3,7 +3,7 @@ package com.example.core.domain.usecase
 import com.example.core.domain.model.Quote
 import com.example.core.domain.repository.IQuotesRepository
 
-class QuotesInteractor(private val quotesRepository: IQuotesRepository): QoutesUseCase {
+class QuotesInteractor(private val quotesRepository: IQuotesRepository): QuotesUseCase {
     override suspend fun getQuotesByAnime(anime: String) = quotesRepository.getQuotesByAnime(anime)
     override suspend fun getQuotesByCharacter(character: String) = quotesRepository.getQuotesByCharacter(character)
     override fun getFavoriteQuotes() = quotesRepository.getFavoriteQuotes()

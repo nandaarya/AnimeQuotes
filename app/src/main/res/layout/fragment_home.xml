@@ -42,7 +42,7 @@
         tools:visibility="visible" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_Games"
+        android:id="@+id/rv_quotes"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:overScrollMode="never"
@@ -57,6 +57,15 @@
     <include
         android:id="@+id/viewError"
         layout="@layout/view_error"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/viewEmpty"
+        layout="@layout/view_empty"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

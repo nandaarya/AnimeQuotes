@@ -2,11 +2,11 @@ package com.example.core.data.remote.response
 
 import com.google.gson.annotations.SerializedName
 
-data class GetQuotesByAnimeResponse(
-
-	@field:SerializedName("GetRandomQuotesByAnimeResponse")
-	val getQuotesByAnimeResponse: List<GetQuotesByAnimeResponseItem>
-)
+//data class GetQuotesByAnimeResponse(
+//
+//	@field:SerializedName("GetRandomQuotesByAnimeResponse")
+//	val getQuotesByAnimeResponse: List<GetQuotesByAnimeResponseItem>
+//)
 
 data class GetQuotesByAnimeResponseItem(
 
