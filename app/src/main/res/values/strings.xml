@@ -7,4 +7,6 @@
     <string name="no_data">Sorry, No Quote Found!</string>
     <string name="favorite">Favorite</string>
     <string name="share">Share</string>
+    <string name="quote_details">Quote Details</string>
+    <string name="another_quotes">Another Quotes From %1$s</string>
 </resources>
