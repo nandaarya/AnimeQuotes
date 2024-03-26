@@ -59,4 +59,28 @@ class RemoteDataSource(private val apiService: ApiService) {
             }
         }.flowOn(Dispatchers.IO)
     }
+
+    suspend fun getQuotesByCharacter(name: String): Flow<ApiResponse<List<Quote>>> {
+        return flow {
+            emit(ApiResponse.Loading)
+            try {
+                val response = apiService.getQuotesByCharacter(name = name)
+                val dataArray = response.map {
+                    DataMapper.mapResponseToDomain(it)
+                }
+                if (dataArray.isNotEmpty()){
+                    emit(ApiResponse.Success(dataArray))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e : Exception){
+                if (e is HttpException && e.code() == 404) {
+                    emit(ApiResponse.Empty)
+                } else {
+                    emit(ApiResponse.Error(e.toString()))
+                }
+                Log.e("RemoteDataSource", e.toString())
+            }
+        }.flowOn(Dispatchers.IO)
+    }
 }

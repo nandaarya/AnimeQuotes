@@ -13,4 +13,9 @@ interface ApiService {
     suspend fun getQuotesByAnime(
         @Query("title") title: String? = null
     ): List<GetQuotesByAnimeResponseItem>
+
+    @GET("/api/quotes/character")
+    suspend fun getQuotesByCharacter(
+        @Query("name") name: String? = null
+    ): List<GetQuotesByAnimeResponseItem>
 }

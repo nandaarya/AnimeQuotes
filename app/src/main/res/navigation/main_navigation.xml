@@ -21,6 +21,7 @@
         tools:layout="@layout/fragment_detail" >
         <action
             android:id="@+id/action_detailFragment_self"
-            app:destination="@id/detailFragment" />
+            app:destination="@id/detailFragment"
+            app:launchSingleTop="false" />
     </fragment>
 </navigation>

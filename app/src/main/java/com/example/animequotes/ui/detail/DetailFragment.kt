@@ -1,6 +1,7 @@
 package com.example.animequotes.ui.detail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -13,8 +14,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.animequotes.R
 import com.example.animequotes.databinding.FragmentDetailBinding
+import com.example.core.data.remote.network.ApiResponse
 import com.example.core.domain.model.Quote
 import com.example.core.ui.ListQuoteAdapter
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @Suppress("DEPRECATION")
@@ -43,13 +46,20 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setAppBarHideNavigation()
+
+        val quote: Quote? = arguments?.getParcelable("quoteData")
+        setContent(quote)
+    }
+
+    private fun setAppBarHideNavigation() {
+        (activity as AppCompatActivity).findViewById<BottomNavigationView>(R.id.bottom_navigation).visibility =
+            View.GONE
+
         (activity as AppCompatActivity).supportActionBar?.apply {
             title = getString(R.string.quote_details)
             setDisplayHomeAsUpEnabled(true)
         }
-
-        val quote: Quote? = arguments?.getParcelable("quoteData")
-        setContent(quote)
     }
 
     private fun setContent(quote: Quote?) {
@@ -81,21 +91,47 @@ class DetailFragment : Fragment() {
             binding?.btnShare?.setOnClickListener {
 
             }
-        }
 
-        val listQuoteAdapter = ListQuoteAdapter{ quote ->
-            val bundle = bundleOf("quoteData" to quote)
-            findNavController().navigate(R.id.action_detailFragment_self, bundle)
-        }
+            // Get Quotes By Character Name
+            val listQuoteAdapter = ListQuoteAdapter { quote ->
+                val bundle = bundleOf("quoteData" to quote)
+                findNavController().navigate(R.id.action_detailFragment_self, bundle)
+            }
 
-//        listQuoteAdapter.submitList(quotes.data)
+            detailViewModel.getQuotesByCharacter(quote.character)
+                .observe(viewLifecycleOwner) { quotes ->
+                    if (quotes != null) {
+                        when (quotes) {
+                            is ApiResponse.Loading -> binding?.loadingBar?.visibility = View.VISIBLE
+                            is ApiResponse.Empty -> {
+                                binding?.loadingBar?.visibility = View.GONE
+                                binding?.rvQuotes?.visibility = View.GONE
+                                Log.d("detail", "empty")
+                            }
 
-        val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                            is ApiResponse.Success -> {
+                                binding?.loadingBar?.visibility = View.GONE
+                                binding?.rvQuotes?.visibility = View.VISIBLE
+                                listQuoteAdapter.submitList(quotes.data)
+                                Log.d("detail", "sukses")
+                                Log.d("detail", quotes.data.toString())
+                            }
 
-        with(binding?.rvQuotes) {
-            this?.layoutManager = layoutManager
-            this?.setHasFixedSize(true)
-            this?.adapter = listQuoteAdapter
+                            is ApiResponse.Error -> {
+                                binding?.loadingBar?.visibility = View.GONE
+                                binding?.rvQuotes?.visibility = View.GONE
+                                Log.d("detail", "error")
+                            }
+                        }
+                    }
+                }
+
+            val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+            with(binding?.rvQuotes) {
+                this?.layoutManager = layoutManager
+                this?.adapter = listQuoteAdapter
+            }
         }
     }
 
@@ -106,16 +142,8 @@ class DetailFragment : Fragment() {
                 requireActivity().onBackPressed()
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-
-        (activity as AppCompatActivity).supportActionBar?.apply {
-            title = getString(R.string.app_name)
-            setDisplayHomeAsUpEnabled(false)
         }
     }
 }

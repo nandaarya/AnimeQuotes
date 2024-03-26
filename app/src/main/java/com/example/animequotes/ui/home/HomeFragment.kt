@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
@@ -16,6 +17,7 @@ import com.example.animequotes.R
 import com.example.animequotes.databinding.FragmentHomeBinding
 import com.example.core.data.remote.network.ApiResponse
 import com.example.core.ui.ListQuoteAdapter
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -37,8 +39,35 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setAppBarShowNavigation()
         searchBar()
         setContent()
+    }
+
+    private fun setAppBarShowNavigation() {
+        (activity as AppCompatActivity).findViewById<BottomNavigationView>(R.id.bottom_navigation).visibility = View.VISIBLE
+
+        (activity as AppCompatActivity).supportActionBar?.apply {
+            title = getString(R.string.app_name)
+            setDisplayHomeAsUpEnabled(false)
+        }
+    }
+
+    private fun searchBar() {
+        binding?.search?.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                lifecycleScope.launch {
+                    homeViewModel.query.value = s.toString()
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+        })
     }
 
     private fun setContent() {
@@ -79,23 +108,6 @@ class HomeFragment : Fragment() {
                 this?.adapter = listQuoteAdapter
             }
         }
-    }
-
-    private fun searchBar() {
-        binding?.search?.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                lifecycleScope.launch {
-                    homeViewModel.query.value = s.toString()
-                }
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-            }
-        })
     }
 
     override fun onDestroyView() {

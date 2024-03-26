@@ -10,14 +10,14 @@ class QuotesRepository(
     private val remoteDataSource: RemoteDataSource,
 //    private val localDataSource: LocalDataSource
 ) : IQuotesRepository {
-    override suspend fun getRandomQuotes(): Flow<ApiResponse<List<Quote>>> = remoteDataSource.getRandomQuotes()
+    override suspend fun getRandomQuotes(): Flow<ApiResponse<List<Quote>>> =
+        remoteDataSource.getRandomQuotes()
 
     override suspend fun getQuotesByAnime(anime: String): Flow<ApiResponse<List<Quote>>> =
         remoteDataSource.getQuotesByAnime(anime)
 
-    override suspend fun getQuotesByCharacter(character: String): Flow<ApiResponse<List<Quote>>> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getQuotesByCharacter(character: String): Flow<ApiResponse<List<Quote>>> =
+        remoteDataSource.getQuotesByCharacter(character)
 
     override fun getFavoriteQuotes(): Flow<ApiResponse<List<Quote>>> {
         TODO("Not yet implemented")

@@ -1,5 +1,6 @@
 package com.example.animequotes.ui.di
 
+import com.example.animequotes.ui.detail.DetailViewModel
 import com.example.animequotes.ui.home.HomeViewModel
 import com.example.core.domain.usecase.QuotesInteractor
 import com.example.core.domain.usecase.QuotesUseCase
@@ -12,4 +13,5 @@ val useCaseModule = module {
 
 val viewModelModule = module {
     viewModel { HomeViewModel(get()) }
+    viewModel { DetailViewModel(get()) }
 }
