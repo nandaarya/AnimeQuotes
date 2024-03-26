@@ -45,8 +45,8 @@ class HomeFragment : Fragment() {
     private fun setContent() {
         if(activity != null) {
             val listQuoteAdapter = ListQuoteAdapter{ quote ->
-                val bundle = bundleOf("quoteId" to quote.id)
-//                findNavController().navigate(R.id.action_homeFragment_to_detailsFragments, bundle)
+                val bundle = bundleOf("quoteData" to quote)
+                findNavController().navigate(R.id.action_homeFragment_to_detailFragment, bundle)
             }
             homeViewModel.searchResult.observe(viewLifecycleOwner) { quotes ->
                 if (quotes != null) {
