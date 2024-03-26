@@ -10,6 +10,8 @@ class QuotesRepository(
     private val remoteDataSource: RemoteDataSource,
 //    private val localDataSource: LocalDataSource
 ) : IQuotesRepository {
+    override suspend fun getRandomQuotes(): Flow<ApiResponse<List<Quote>>> = remoteDataSource.getRandomQuotes()
+
     override suspend fun getQuotesByAnime(anime: String): Flow<ApiResponse<List<Quote>>> =
         remoteDataSource.getQuotesByAnime(anime)
 

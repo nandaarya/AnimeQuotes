@@ -5,6 +5,7 @@ import com.example.core.domain.model.Quote
 import kotlinx.coroutines.flow.Flow
 
 interface IQuotesRepository {
+    suspend fun getRandomQuotes(): Flow<ApiResponse<List<Quote>>>
     suspend fun getQuotesByAnime(anime: String): Flow<ApiResponse<List<Quote>>>
     suspend fun getQuotesByCharacter(character: String): Flow<ApiResponse<List<Quote>>>
     fun getFavoriteQuotes(): Flow<ApiResponse<List<Quote>>>

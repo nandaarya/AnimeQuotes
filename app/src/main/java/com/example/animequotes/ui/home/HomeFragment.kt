@@ -61,6 +61,7 @@ class HomeFragment : Fragment() {
                             binding?.loadingBar?.visibility = View.GONE
                             binding?.rvQuotes?.visibility = View.VISIBLE
                             binding?.viewError?.root?.visibility = View.GONE
+                            binding?.viewEmpty?.root?.visibility = View.GONE
                             listQuoteAdapter.submitList(quotes.data)
                         }
 
