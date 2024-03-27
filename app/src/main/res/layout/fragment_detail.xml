@@ -99,7 +99,6 @@
                         android:minWidth="48dp"
                         app:iconSize="24dp"
                         app:icon="@drawable/ic_favorite_border_24"
-                        app:iconTint="?attr/colorSecondary"
                         app:layout_constraintEnd_toStartOf="@+id/btn_share"
                         app:layout_constraintTop_toTopOf="parent" />
 
