@@ -4,6 +4,7 @@ import java.io.FileInputStream
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("com.google.devtools.ksp")
     id ("kotlin-parcelize")
 }
 
@@ -76,4 +77,9 @@ dependencies {
     api ("io.insert-koin:koin-android:3.3.2")
 
     api("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
+
+    // Room
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    ksp("androidx.room:room-compiler:2.6.1")
 }
