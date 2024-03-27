@@ -3,6 +3,7 @@ package com.example.animequotes
 import android.app.Application
 import com.example.animequotes.ui.di.useCaseModule
 import com.example.animequotes.ui.di.viewModelModule
+import com.example.core.di.databaseModule
 import com.example.core.di.networkModule
 import com.example.core.di.repositoryModule
 import org.koin.android.ext.koin.androidContext
@@ -18,7 +19,7 @@ open class MyApplication : Application() {
             androidContext(this@MyApplication)
             modules(
                 listOf(
-//                        databaseModule,
+                    databaseModule,
                     networkModule,
                     repositoryModule,
                     useCaseModule,
