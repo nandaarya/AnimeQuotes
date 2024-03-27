@@ -7,7 +7,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ScrollView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -17,7 +16,6 @@ import com.example.animequotes.databinding.FragmentDetailBinding
 import com.example.core.data.remote.network.ApiResponse
 import com.example.core.domain.model.Quote
 import com.example.core.ui.ListQuoteAdapter
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @Suppress("DEPRECATION")
@@ -47,10 +45,12 @@ class DetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val quote: Quote? = arguments?.getParcelable("quoteData")
-        setContent(quote)
+        setQuoteData(quote)
+        setButton(quote)
+        setRecyclerView(quote)
     }
 
-    private fun setContent(quote: Quote?) {
+    private fun setQuoteData(quote: Quote?) {
         quote?.let {
             val quoteText = context?.getString(com.example.core.R.string.quote, it.quote)
             binding?.tvQuote?.text = quoteText
@@ -60,33 +60,29 @@ class DetailFragment : Fragment() {
             val characterName = it.character
             val formattedString = getString(R.string.another_quotes, characterName)
             binding?.tvAnotherQuotesLabel?.text = formattedString
+        }
+    }
 
-            if (it.isFavorite) {
-                binding?.btnFavorite?.apply {
-                    setImageResource(R.drawable.ic_favorite_filled_24)
+    private fun setButton(quote: Quote?) {
+        quote?.let {
+            detailViewModel.checkFavoriteStatus(it.id).observe(viewLifecycleOwner) { favorite ->
+                setStatusFavorite(favorite)
+                binding?.btnFavorite?.setOnClickListener {
+                    if (!favorite) detailViewModel.saveFavoriteQuote(quote)
+                    else detailViewModel.deleteFavoriteQuote(quote)
                 }
-            } else {
-                binding?.btnFavorite?.apply {
-                    setImageResource(R.drawable.ic_favorite_border_24)
-                }
             }
+        }
+    }
 
-            binding?.btnFavorite?.setOnClickListener {
+    private fun setRecyclerView(quote: Quote?) {
+        val listQuoteAdapter = ListQuoteAdapter { quoteData ->
+            val bundle = bundleOf("quoteData" to quoteData)
+            findNavController().navigate(R.id.action_detailFragment_self, bundle)
+        }
 
-            }
-
-
-            binding?.btnShare?.setOnClickListener {
-
-            }
-
-            // Get Quotes By Character Name
-            val listQuoteAdapter = ListQuoteAdapter { quote ->
-                val bundle = bundleOf("quoteData" to quote)
-                findNavController().navigate(R.id.action_detailFragment_self, bundle)
-            }
-
-            detailViewModel.getQuotesByCharacter(quote.character)
+        quote?.let {
+            detailViewModel.getQuotesByCharacter(it.character)
                 .observe(viewLifecycleOwner) { quotes ->
                     if (quotes != null) {
                         when (quotes) {
@@ -113,13 +109,21 @@ class DetailFragment : Fragment() {
                         }
                     }
                 }
+        }
 
-            val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
-            with(binding?.rvQuotes) {
-                this?.layoutManager = layoutManager
-                this?.adapter = listQuoteAdapter
-            }
+        with(binding?.rvQuotes) {
+            this?.layoutManager = layoutManager
+            this?.adapter = listQuoteAdapter
+        }
+    }
+
+    private fun setStatusFavorite(statusFavorite: Boolean) {
+        if (statusFavorite) {
+            binding?.btnFavorite?.setIconResource(R.drawable.ic_favorite_filled_24)
+        } else {
+            binding?.btnFavorite?.setIconResource(R.drawable.ic_favorite_border_24)
         }
     }
 

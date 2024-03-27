@@ -79,14 +79,27 @@
                     android:gravity="end"
                     android:orientation="horizontal">
 
-                    <ImageView
+<!--                    <ImageView-->
+<!--                        android:id="@+id/btn_favorite"-->
+<!--                        style="?attr/materialIconButtonFilledTonalStyle"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:contentDescription="@string/favorite"-->
+<!--                        android:minWidth="48dp"-->
+<!--                        app:icon="@drawable/ic_favorite_border_24"-->
+<!--                        app:layout_constraintEnd_toStartOf="@+id/btn_share"-->
+<!--                        app:layout_constraintTop_toTopOf="parent" />-->
+
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_favorite"
-                        style="?attr/materialIconButtonFilledTonalStyle"
+                        style="?attr/materialIconButtonStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:contentDescription="@string/favorite"
                         android:minWidth="48dp"
+                        app:iconSize="24dp"
                         app:icon="@drawable/ic_favorite_border_24"
+                        app:iconTint="?attr/colorSecondary"
                         app:layout_constraintEnd_toStartOf="@+id/btn_share"
                         app:layout_constraintTop_toTopOf="parent" />
 
