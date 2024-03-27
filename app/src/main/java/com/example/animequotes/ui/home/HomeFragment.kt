@@ -39,18 +39,8 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setAppBarShowNavigation()
         searchBar()
         setContent()
-    }
-
-    private fun setAppBarShowNavigation() {
-        (activity as AppCompatActivity).findViewById<BottomNavigationView>(R.id.bottom_navigation).visibility = View.VISIBLE
-
-        (activity as AppCompatActivity).supportActionBar?.apply {
-            title = getString(R.string.app_name)
-            setDisplayHomeAsUpEnabled(false)
-        }
     }
 
     private fun searchBar() {

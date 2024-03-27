@@ -46,20 +46,8 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setAppBarHideNavigation()
-
         val quote: Quote? = arguments?.getParcelable("quoteData")
         setContent(quote)
-    }
-
-    private fun setAppBarHideNavigation() {
-        (activity as AppCompatActivity).findViewById<BottomNavigationView>(R.id.bottom_navigation).visibility =
-            View.GONE
-
-        (activity as AppCompatActivity).supportActionBar?.apply {
-            title = getString(R.string.quote_details)
-            setDisplayHomeAsUpEnabled(true)
-        }
     }
 
     private fun setContent(quote: Quote?) {

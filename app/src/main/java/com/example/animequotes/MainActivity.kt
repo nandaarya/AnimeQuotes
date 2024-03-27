@@ -2,9 +2,11 @@ package com.example.animequotes
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.animequotes.databinding.ActivityMainBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,6 +17,33 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding?.root)
+
+        val navView: BottomNavigationView? = binding?.bottomNavigation
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.detailFragment -> {
+                    navView?.visibility = View.GONE
+                    supportActionBar?.apply {
+                        title = getString(R.string.quote_details)
+                        setDisplayHomeAsUpEnabled(true)
+                    }
+                }
+                R.id.favoriteFragment -> {
+                    navView?.visibility = View.VISIBLE
+                    supportActionBar?.apply {
+                        title = getString(R.string.favorite_quote)
+                        setDisplayHomeAsUpEnabled(false)
+                    }
+                }
+                else -> {
+                    navView?.visibility = View.VISIBLE
+                    supportActionBar?.apply {
+                        title = getString(R.string.app_name)
+                        setDisplayHomeAsUpEnabled(false)
+                    }
+                }
+            }
+        }
 
         binding?.bottomNavigation?.setupWithNavController(navController)
     }
