@@ -14,8 +14,6 @@ import kotlinx.coroutines.flow.map
 @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
 class HomeViewModel(private val quotesUseCase: QuotesUseCase) : ViewModel() {
 
-    // Data pertama yang dicari untuk saat pertama membuka aplikasi
-    // akan diganti dengan random quote
     val query = MutableStateFlow<String?>("")
 
     val searchResult = query

@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 rootProject.name = "AnimeQuotes"
 include(":app")
 include(":core")
+include(":favorite")

@@ -64,6 +64,13 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
 
+    // Navigation
+    val navVersion = "2.7.7"
+
+    api("androidx.navigation:navigation-fragment-ktx:$navVersion")
+    api("androidx.navigation:navigation-ui-ktx:$navVersion")
+    api("androidx.navigation:navigation-dynamic-features-fragment:$navVersion")
+
     // koin
     api ("io.insert-koin:koin-core:3.3.2")
     api ("io.insert-koin:koin-android:3.3.2")

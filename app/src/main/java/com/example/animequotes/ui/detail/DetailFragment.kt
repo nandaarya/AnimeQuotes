@@ -146,4 +146,9 @@ class DetailFragment : Fragment() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

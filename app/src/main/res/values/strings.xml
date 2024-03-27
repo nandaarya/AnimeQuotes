@@ -9,4 +9,5 @@
     <string name="share">Share</string>
     <string name="quote_details">Quote Details</string>
     <string name="another_quotes">Another Quotes From %1$s</string>
+    <string name="title_favorite">Favorite</string>
 </resources>
