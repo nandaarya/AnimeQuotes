@@ -1,5 +1,6 @@
 package com.example.animequotes.ui.detail
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -71,6 +72,23 @@ class DetailFragment : Fragment() {
                     if (!favorite) detailViewModel.saveFavoriteQuote(quote)
                     else detailViewModel.deleteFavoriteQuote(quote)
                 }
+            }
+
+            binding?.btnShare?.setOnClickListener {
+                val quoteText = quote.quote
+                val characterName = quote.character
+                val animeTitle = quote.anime
+                val shareText = "\"$quoteText\"\n\n~ $characterName | $animeTitle"
+
+                val sendIntent: Intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(
+                        Intent.EXTRA_TEXT, shareText
+                    )
+                    type = "text/plain"
+                }
+                val shareIntent = Intent.createChooser(sendIntent, null)
+                startActivity(shareIntent)
             }
         }
     }
