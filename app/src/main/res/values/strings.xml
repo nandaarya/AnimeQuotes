@@ -11,4 +11,5 @@
     <string name="another_quotes">Another Quotes From %1$s</string>
     <string name="title_favorite">Favorite</string>
     <string name="favorite_quote">Favorite Quotes</string>
+    <string name="text_to_speech">Listen to the Quote</string>
 </resources>

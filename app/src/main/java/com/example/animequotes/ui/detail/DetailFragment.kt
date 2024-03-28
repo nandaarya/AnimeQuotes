@@ -2,6 +2,7 @@ package com.example.animequotes.ui.detail
 
 import android.content.Intent
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -18,13 +19,15 @@ import com.example.core.data.remote.network.ApiResponse
 import com.example.core.domain.model.Quote
 import com.example.core.ui.ListQuoteAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.Locale
 
 @Suppress("DEPRECATION")
-class DetailFragment : Fragment() {
+class DetailFragment : Fragment(), TextToSpeech.OnInitListener {
 
     private val detailViewModel: DetailViewModel by viewModel()
 
     private var _binding: FragmentDetailBinding? = null
+    private var tts: TextToSpeech? = null
 
     private val binding get() = _binding
 
@@ -89,6 +92,25 @@ class DetailFragment : Fragment() {
                 }
                 val shareIntent = Intent.createChooser(sendIntent, null)
                 startActivity(shareIntent)
+            }
+
+            binding?.btnTextToSpeech?.isEnabled = false
+            tts = TextToSpeech(requireContext(), this)
+            binding?.btnTextToSpeech?.setOnClickListener {
+                val text = quote.quote
+                tts?.speak(text, TextToSpeech.QUEUE_FLUSH, null, "")
+            }
+        }
+    }
+
+    override fun onInit(status: Int) {
+        if (status == TextToSpeech.SUCCESS) {
+            val result = tts!!.setLanguage(Locale.US)
+
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Log.e("TTS", "The Language not supported!")
+            } else {
+                binding?.btnTextToSpeech?.isEnabled = true
             }
         }
     }
@@ -159,6 +181,10 @@ class DetailFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        if (tts != null) {
+            tts!!.stop()
+            tts!!.shutdown()
+        }
         _binding = null
     }
 }
