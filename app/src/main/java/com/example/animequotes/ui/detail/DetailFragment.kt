@@ -130,21 +130,17 @@ class DetailFragment : Fragment(), TextToSpeech.OnInitListener {
                             is ApiResponse.Empty -> {
                                 binding?.loadingBar?.visibility = View.GONE
                                 binding?.rvQuotes?.visibility = View.GONE
-                                Log.d("detail", "empty")
                             }
 
                             is ApiResponse.Success -> {
                                 binding?.loadingBar?.visibility = View.GONE
                                 binding?.rvQuotes?.visibility = View.VISIBLE
                                 listQuoteAdapter.submitList(quotes.data)
-                                Log.d("detail", "sukses")
-                                Log.d("detail", quotes.data.toString())
                             }
 
                             is ApiResponse.Error -> {
                                 binding?.loadingBar?.visibility = View.GONE
                                 binding?.rvQuotes?.visibility = View.GONE
-                                Log.d("detail", "error")
                             }
                         }
                     }
