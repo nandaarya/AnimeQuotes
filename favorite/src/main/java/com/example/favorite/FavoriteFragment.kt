@@ -44,7 +44,8 @@ class FavoriteFragment : Fragment() {
 
         favoriteViewModel.favoritesQuotes.observe(viewLifecycleOwner) { data ->
             listQuoteAdapter.submitList(data)
-            binding?.tvFavoriteEmpty?.visibility = if (data.isNotEmpty()) View.GONE else View.VISIBLE
+            binding?.ivEmpty?.visibility = if (data.isNotEmpty()) View.GONE else View.VISIBLE
+            binding?.tvEmpty?.visibility = if (data.isNotEmpty()) View.GONE else View.VISIBLE
         }
 
         binding?.loadingBar?.visibility = View.GONE

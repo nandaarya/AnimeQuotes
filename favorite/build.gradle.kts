@@ -39,4 +39,5 @@ dependencies {
     implementation (project(":core"))
 
     debugImplementation ("com.squareup.leakcanary:leakcanary-android:2.10")
+    implementation ("com.airbnb.android:lottie:4.1.0")
 }

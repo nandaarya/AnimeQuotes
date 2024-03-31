@@ -64,4 +64,7 @@ dependencies {
     testImplementation("org.mockito:mockito-core:3.12.4")
     testImplementation("org.mockito:mockito-inline:3.12.4")
     testImplementation("androidx.arch.core:core-testing:2.2.0")
+
+    implementation ("com.airbnb.android:lottie:4.1.0")
+
 }
