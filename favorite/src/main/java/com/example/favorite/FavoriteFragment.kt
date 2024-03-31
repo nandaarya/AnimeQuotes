@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.animequotes.R
+import com.example.animequotes.ui.detail.DetailFragment
 import com.example.core.ui.ListQuoteAdapter
 import com.example.favorite.databinding.FragmentFavoriteBinding
 import com.example.favorite.di.favoriteModule
@@ -38,18 +39,19 @@ class FavoriteFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val listQuoteAdapter = ListQuoteAdapter{ quote ->
-            val bundle = bundleOf("quoteData" to quote)
+            val bundle = bundleOf(DetailFragment.QUOTE_DATA_KEY to quote)
             findNavController().navigate(R.id.action_favoriteFragment_to_detailFragment, bundle)
         }
 
         favoriteViewModel.favoritesQuotes.observe(viewLifecycleOwner) { data ->
             listQuoteAdapter.submitList(data)
-            binding?.ivEmpty?.visibility = if (data.isNotEmpty()) View.GONE else View.VISIBLE
-            binding?.tvEmpty?.visibility = if (data.isNotEmpty()) View.GONE else View.VISIBLE
+            binding?.apply {
+                ivEmpty.visibility = if (data.isNotEmpty()) View.GONE else View.VISIBLE
+                tvEmpty.visibility = if (data.isNotEmpty()) View.GONE else View.VISIBLE
+                loadingBar.visibility = View.GONE
+                rvQuotes.visibility = View.VISIBLE
+            }
         }
-
-        binding?.loadingBar?.visibility = View.GONE
-        binding?.rvQuotes?.visibility = View.VISIBLE
 
         with(binding?.rvQuotes) {
             this?.layoutManager = LinearLayoutManager(context)

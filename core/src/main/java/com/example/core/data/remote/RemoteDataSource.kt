@@ -1,6 +1,5 @@
 package com.example.core.data.remote
 
-import android.util.Log
 import com.example.core.data.remote.network.ApiResponse
 import com.example.core.data.remote.network.ApiService
 import com.example.core.domain.model.Quote
@@ -20,18 +19,17 @@ class RemoteDataSource(private val apiService: ApiService) {
                 val dataArray = response.map {
                     DataMapper.mapResponseToDomain(it)
                 }
-                if (dataArray.isNotEmpty()){
+                if (dataArray.isNotEmpty()) {
                     emit(ApiResponse.Success(dataArray))
                 } else {
                     emit(ApiResponse.Empty)
                 }
-            } catch (e : Exception){
+            } catch (e: Exception) {
                 if (e is HttpException && e.code() == 404) {
                     emit(ApiResponse.Empty)
                 } else {
                     emit(ApiResponse.Error(e.toString()))
                 }
-                Log.e("RemoteDataSource", e.toString())
             }
         }.flowOn(Dispatchers.IO)
     }
@@ -44,18 +42,17 @@ class RemoteDataSource(private val apiService: ApiService) {
                 val dataArray = response.map {
                     DataMapper.mapResponseToDomain(it)
                 }
-                if (dataArray.isNotEmpty()){
+                if (dataArray.isNotEmpty()) {
                     emit(ApiResponse.Success(dataArray))
                 } else {
                     emit(ApiResponse.Empty)
                 }
-            } catch (e : Exception){
+            } catch (e: Exception) {
                 if (e is HttpException && e.code() == 404) {
                     emit(ApiResponse.Empty)
                 } else {
                     emit(ApiResponse.Error(e.toString()))
                 }
-                Log.e("RemoteDataSource", e.toString())
             }
         }.flowOn(Dispatchers.IO)
     }
@@ -68,18 +65,17 @@ class RemoteDataSource(private val apiService: ApiService) {
                 val dataArray = response.map {
                     DataMapper.mapResponseToDomain(it)
                 }
-                if (dataArray.isNotEmpty()){
+                if (dataArray.isNotEmpty()) {
                     emit(ApiResponse.Success(dataArray))
                 } else {
                     emit(ApiResponse.Empty)
                 }
-            } catch (e : Exception){
+            } catch (e: Exception) {
                 if (e is HttpException && e.code() == 404) {
                     emit(ApiResponse.Empty)
                 } else {
                     emit(ApiResponse.Error(e.toString()))
                 }
-                Log.e("RemoteDataSource", e.toString())
             }
         }.flowOn(Dispatchers.IO)
     }

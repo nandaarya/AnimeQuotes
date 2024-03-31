@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.animequotes.R
 import com.example.animequotes.databinding.FragmentHomeBinding
+import com.example.animequotes.ui.detail.DetailFragment
 import com.example.core.data.remote.network.ApiResponse
 import com.example.core.ui.ListQuoteAdapter
 import kotlinx.coroutines.launch
@@ -61,7 +62,7 @@ class HomeFragment : Fragment() {
     private fun setContent() {
         if(activity != null) {
             val listQuoteAdapter = ListQuoteAdapter{ quote ->
-                val bundle = bundleOf("quoteData" to quote)
+                val bundle = bundleOf(DetailFragment.QUOTE_DATA_KEY to quote)
                 findNavController().navigate(R.id.action_homeFragment_to_detailFragment, bundle)
             }
             homeViewModel.searchResult.observe(viewLifecycleOwner) { quotes ->
@@ -69,22 +70,28 @@ class HomeFragment : Fragment() {
                     when (quotes) {
                         is ApiResponse.Loading -> binding?.loadingBar?.visibility = View.VISIBLE
                         is ApiResponse.Empty -> {
-                            binding?.loadingBar?.visibility = View.GONE
-                            binding?.rvQuotes?.visibility = View.GONE
-                            binding?.viewEmpty?.root?.visibility = View.VISIBLE
+                            binding?.apply {
+                                loadingBar.visibility = View.GONE
+                                rvQuotes.visibility = View.GONE
+                                viewEmpty.root.visibility = View.VISIBLE
+                            }
                         }
                         is ApiResponse.Success -> {
-                            binding?.loadingBar?.visibility = View.GONE
-                            binding?.rvQuotes?.visibility = View.VISIBLE
-                            binding?.viewError?.root?.visibility = View.GONE
-                            binding?.viewEmpty?.root?.visibility = View.GONE
+                            binding?.apply {
+                                loadingBar.visibility = View.GONE
+                                rvQuotes.visibility = View.VISIBLE
+                                viewError.root.visibility = View.GONE
+                                viewEmpty.root.visibility = View.GONE
+                            }
                             listQuoteAdapter.submitList(quotes.data)
                         }
 
                         is ApiResponse.Error -> {
-                            binding?.loadingBar?.visibility = View.GONE
-                            binding?.rvQuotes?.visibility = View.GONE
-                            binding?.viewError?.root?.visibility = View.VISIBLE
+                            binding?.apply {
+                                loadingBar.visibility = View.GONE
+                                rvQuotes.visibility = View.GONE
+                                viewError.root.visibility = View.VISIBLE
+                            }
                         }
                     }
                 }

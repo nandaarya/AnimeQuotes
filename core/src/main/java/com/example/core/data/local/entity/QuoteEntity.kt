@@ -20,5 +20,5 @@ data class QuoteEntity(
     val character: String,
 
     @ColumnInfo(name = "isFavorite")
-    var isFavorite: Boolean = false,
+    val isFavorite: Boolean = false,
 )

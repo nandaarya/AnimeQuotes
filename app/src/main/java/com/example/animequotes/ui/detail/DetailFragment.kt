@@ -21,7 +21,6 @@ import com.example.core.ui.ListQuoteAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.Locale
 
-@Suppress("DEPRECATION")
 class DetailFragment : Fragment(), TextToSpeech.OnInitListener {
 
     private val detailViewModel: DetailViewModel by viewModel()
@@ -30,6 +29,10 @@ class DetailFragment : Fragment(), TextToSpeech.OnInitListener {
     private var tts: TextToSpeech? = null
 
     private val binding get() = _binding
+
+    companion object {
+        const val QUOTE_DATA_KEY = "quoteData"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +51,7 @@ class DetailFragment : Fragment(), TextToSpeech.OnInitListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val quote: Quote? = arguments?.getParcelable("quoteData")
+        val quote: Quote? = arguments?.getParcelable(QUOTE_DATA_KEY)
         setQuoteData(quote)
         setButton(quote)
         setRecyclerView(quote)
@@ -57,13 +60,14 @@ class DetailFragment : Fragment(), TextToSpeech.OnInitListener {
     private fun setQuoteData(quote: Quote?) {
         quote?.let {
             val quoteText = context?.getString(com.example.core.R.string.quote, it.quote)
-            binding?.tvQuote?.text = quoteText
-            binding?.tvCharacterName?.text = it.character
-            binding?.tvAnimeName?.text = it.anime
-
             val characterName = it.character
             val formattedString = getString(R.string.another_quotes, characterName)
-            binding?.tvAnotherQuotesLabel?.text = formattedString
+            binding?.apply {
+                tvQuote.text = quoteText
+                tvCharacterName.text = it.character
+                tvAnimeName.text = it.anime
+                tvAnotherQuotesLabel.text = formattedString
+            }
         }
     }
 
@@ -128,19 +132,25 @@ class DetailFragment : Fragment(), TextToSpeech.OnInitListener {
                         when (quotes) {
                             is ApiResponse.Loading -> binding?.loadingBar?.visibility = View.VISIBLE
                             is ApiResponse.Empty -> {
-                                binding?.loadingBar?.visibility = View.GONE
-                                binding?.rvQuotes?.visibility = View.GONE
+                                binding?.apply {
+                                    loadingBar.visibility = View.GONE
+                                    rvQuotes.visibility = View.GONE
+                                }
                             }
 
                             is ApiResponse.Success -> {
-                                binding?.loadingBar?.visibility = View.GONE
-                                binding?.rvQuotes?.visibility = View.VISIBLE
+                                binding?.apply {
+                                    loadingBar.visibility = View.GONE
+                                    rvQuotes.visibility = View.VISIBLE
+                                }
                                 listQuoteAdapter.submitList(quotes.data)
                             }
 
                             is ApiResponse.Error -> {
-                                binding?.loadingBar?.visibility = View.GONE
-                                binding?.rvQuotes?.visibility = View.GONE
+                                binding?.apply {
+                                    loadingBar.visibility = View.GONE
+                                    rvQuotes.visibility = View.GONE
+                                }
                             }
                         }
                     }
