@@ -59,4 +59,9 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
     debugImplementation ("com.squareup.leakcanary:leakcanary-android:2.10")
+
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.0")
+    testImplementation("org.mockito:mockito-core:3.12.4")
+    testImplementation("org.mockito:mockito-inline:3.12.4")
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
 }
