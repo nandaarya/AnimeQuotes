@@ -37,4 +37,6 @@ android {
 dependencies {
     implementation(project(":app"))
     implementation (project(":core"))
+
+    debugImplementation ("com.squareup.leakcanary:leakcanary-android:2.10")
 }

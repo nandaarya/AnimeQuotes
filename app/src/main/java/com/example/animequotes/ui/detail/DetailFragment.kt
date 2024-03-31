@@ -95,7 +95,7 @@ class DetailFragment : Fragment(), TextToSpeech.OnInitListener {
             }
 
             binding?.btnTextToSpeech?.isEnabled = false
-            tts = TextToSpeech(requireContext(), this)
+            tts = TextToSpeech(requireContext().applicationContext, this)
             binding?.btnTextToSpeech?.setOnClickListener {
                 val text = quote.quote
                 tts?.speak(text, TextToSpeech.QUEUE_FLUSH, null, "")
@@ -172,6 +172,13 @@ class DetailFragment : Fragment(), TextToSpeech.OnInitListener {
             }
 
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (tts != null) {
+            tts!!.stop()
         }
     }
 
