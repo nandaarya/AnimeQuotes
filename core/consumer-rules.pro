@@ -60,3 +60,12 @@
 -keep,allowobfuscation interface <1>
 
 -dontwarn kotlinx.**
+
+# Uncomment for DexGuard only
+#-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+
+-keep class kotlin.** { *; }
+
+##---------------Begin: proguard configuration for RxJava ----------
+# Uncomment if you use RxJava
+#-dontwarn java.util.concurrent.Flow*
